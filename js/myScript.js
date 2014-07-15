@@ -6,15 +6,16 @@ var myWeatherApp = {
     };
     myWeatherApp.config = {
       map: new google.maps.Map(document.getElementById('map-canvas'), mapOptions),
-      geocoder: new google.maps.Geocoder()
+      geocoder: new google.maps.Geocoder(),
+      marker: 0
     };
 
     myWeatherApp.loadMapCurrentLoc();
     myWeatherApp.loadWeather("Zimbabwe");
     myWeatherApp.setupListeners();
-    myWeatherApp.removeMarker();
-
+  
   },
+
 
   loadMapCurrentLoc :  function () { 
 
@@ -26,7 +27,7 @@ var myWeatherApp = {
             var pos = new google.maps.LatLng(position.coords.latitude,
                                            position.coords.longitude);
 
-            var marker = new google.maps.Marker({
+            myWeatherApp.config.marker = new google.maps.Marker({
                 map: myWeatherApp.config.map,
                 animation: google.maps.Animation.DROP,
                 position: pos
@@ -98,10 +99,11 @@ var myWeatherApp = {
     console.log(results);
     if (status == google.maps.GeocoderStatus.OK) {
       myWeatherApp.config.map.setCenter(results[0].geometry.location);
-      var marker = new google.maps.Marker({
-          map: myWeatherApp.config.map,
-          position: results[0].geometry.location
-      });
+      // var marker = new google.maps.Marker({
+      //     map: myWeatherApp.config.map,
+      //     position: results[0].geometry.location
+      // });
+      myWeatherApp.config.marker.setPosition(results[0].geometry.location);
     } else {
       alert("Geocode was not successful for the following reason: " + status);
     }
@@ -114,16 +116,46 @@ var myWeatherApp = {
         // the latitude and longitude for the present location 
         myWeatherApp.loadWeather(position.coords.latitude+','+position.coords.longitude); //load weather using your lat/lng coordinates
         //this positions the marker on the map        
-        var marker = new google.maps.Marker({
-          map: myWeatherApp.config.map,
-          position: latLng
-        });
+        // var marker = new google.maps.Marker({
+        //   map: myWeatherApp.config.map,
+        //   position: latLng
+        // });
+        myWeatherApp.config.marker.setPosition(latLng); 
         myWeatherApp.config.map.setCenter(latLng);
 
       });
     });
 
-  });
+    $("#searchForm").submit(function(event){
+      event.preventDefault();
+      var address = $("#search").val();
+      myWeatherApp.loadWeather(address);
+      myWeatherApp.config.geocoder.geocode({ 'address': address}, myWeatherApp.codeLocation);
+       var address= $('#search').val("");
+    });
+
+    $('#search').keyup(function(event) {
+      if (event.keyCode == 13) {
+        event.preventDefault();
+      $('#searchForm').submit();
+      }
+    });
+  //   google.maps.event.addListener(myWeatherApp.config.map, 'click', function(event) {
+  //     placeMarker(event.latLng);
+  //   });
+
+  //   function placeMarker(location) {
+  //     var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+  //     if (myWeatherApp.config.marker == undefined){
+  //         myWeatherApp.config.marker.setPosition(latLng);
+  //     }
+  //     else{
+  //       myWeatherApp.config.marker.setPosition(location);
+  //     }
+  //     myWeatherApp.config.map.setCenter(location);
+
+  //   }
+
   }
 
 };

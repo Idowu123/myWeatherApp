@@ -40,3 +40,15 @@
    
 //   });
 //   else if(input.)
+
+
+
+
+// var marker = new google.maps.Marker({
+//           map: myWeatherApp.config.map,
+//           position: latLng
+//         });
+//         myWeatherApp.config.map.setCenter(latLng);
+
+//       });
+//     });
