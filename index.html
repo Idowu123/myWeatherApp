@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Weather Api</title>
+		<title>MyWeatherApp</title>
 		<meta charset="utf-8" lang="en">
 		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="css/main.css">
@@ -12,14 +12,22 @@
 		<script src="js/myScript.js" type="text/javascript"></script>
 	</head>
 	<body>
-		<div id="report">
-		<div id="weather"></div>
-		<button class="js-geolocation">Use Your Location</button>
-		<form id="searchForm">
-			<input type="text" id="search">
-			<input type="submit">
-		</form>
+		<div id="all">
+			<header>
+				<h1>MyWeatherApp</h1>
+				<p>This App lets you check the weather condition for a particular location.</p>
+			</header>	
+
+			<div id="report">				
+				<div id="weather"></div>
+				
+				<button class="js-geolocation">Use Your Location</button>
+				<form id="searchForm">
+					<input type="text" id="search">
+					<input type="submit" id="searchsubmit" value="Enter Location">
+				</form>
+			</div>
+			<div id="map-canvas"></div>
 		</div>
-		<div id="map-canvas"></div>
 	</body>
 </html>

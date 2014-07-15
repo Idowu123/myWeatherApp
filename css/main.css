@@ -6,19 +6,30 @@
 */
 
 body {
-  padding: 45px 25px;
+
   font: 13px 'Open Sans', "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  background: #1192d3;
+  background: #CCFFCC;
 }
+header p{
+  font-size: 16px;
+
+}
+#all{
+  margin: 0 5%; 
+  padding: 0;
+}
+
 #report{
    float: left;
-   width: 40%;
+   width: 45%;
 }
 #map-canvas{
   float: right;
-  border: 1px solid black;
-  width: 40%;
+  width: 45%;
   height:220px;
+  padding: 50px 10px;
+  border: 1px solid black;
+  border-radius: 10px;
 }
 
 @font-face {
@@ -31,14 +42,31 @@ body {
     font-weight: normal;
     font-style: normal;
 }
-
+header{
+  margin: 0;
+}
 #weather {
-  width: 500px;
-  margin: 0px auto;
+  padding: 50px 10px;
   text-align: center;
   text-transform: uppercase;
+  height:220px;
+  border: 1px solid black;
+  border-radius: 10px;
 }
-
+#searchsubmit{
+  width: 150px;
+}
+#searchsubmit:hover {
+   color: #FFF;
+  background: lightgreen;
+}
+#search:hover {
+  color: #000;
+  background: #ccc;
+}
+#search{
+  width: 300px;
+}
 i {
   color: #fff;
   font-family: weather;
@@ -111,7 +139,7 @@ i {
   padding: 0;
 }
 
-#weather li, button{
+#weather li{
   background: #fff;
   background: rgba(255,255,255,0.90);
   padding: 20px;
@@ -124,12 +152,31 @@ i {
 }
 
 button {
-  /*display: block;
-  margin: 15px auto;
-  width: 140px;
-  padding: 5px;
-  background: transparent;
-  color: #fff;
-  border: 0;
-  border-radius: 5px;*/
+ background: #fff;
+background: rgba(255,255,255,0.90);
+padding: 20px;
+display: inline-block;
+border-radius: 10px;
+margin-top: 20px;
+}
+button:hover {
+   color: #FFF;
+  background: lightgreen;
+}
+
+input {
+    border: 5px solid white; 
+    border-radius: 10px;
+    -webkit-box-shadow: 
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 16px rgba(0,0,0,0.1); 
+    -moz-box-shadow: 
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 16px rgba(0,0,0,0.1); 
+    box-shadow: 
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 16px rgba(0,0,0,0.1); 
+    padding: 15px;
+    background: rgba(255,255,255,0.5);
+    margin: 20px 20px 10px 0;
 }

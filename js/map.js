@@ -1,3 +1,15 @@
+ // if(weather.temp<60){
+ //      $("#weather").css("background-color","yellow");
+ //      }
+ //       else if(weather.temp>60 && weather.temp<80){
+ //      $("#weather").css("background-color","grey");
+ //      }
+ //        else if(weather.temp>80){
+ //      $("#weather").css("background-color","lightblue");
+ //      }
+
+
+
 // var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
     // var lat = 
     // var long =

@@ -11,14 +11,13 @@ var myWeatherApp = {
     };
 
     myWeatherApp.loadMapCurrentLoc();
-    myWeatherApp.loadWeather("Zimbabwe");
+    myWeatherApp.loadWeather("Lagos");
     myWeatherApp.setupListeners();
   
   },
 
 
   loadMapCurrentLoc :  function () { 
-
       // Try HTML5 geolocation
       if(navigator.geolocation) 
       {
@@ -67,8 +66,6 @@ var myWeatherApp = {
   },
 
   loadWeather:   function (location) {
-    console.log(location);
-
     $.simpleWeather({
       location: location,
       unit: 'f',
@@ -78,15 +75,32 @@ var myWeatherApp = {
         html += '<li class="currently">'+weather.currently+'</li>';
         html += '<li>'+weather.alt.temp+'&deg;C</li></ul>';  
 
-        if(weather.temp<60){
-      $("#weather").css("background-color","#1192d3");
-      }
-       else if(weather.temp>60 && weather.temp<80){
-      $("#weather").css("background-color","grey");
-      }
-        else if(weather.temp>80){
-      $("#weather").css("background-color","red");
-      }
+        
+        if(weather.code>= 0 && weather.code<=17){
+        $("#weather").css("background-color","lightblue");
+        }
+        else if(weather.code> 17 && weather.code<=23){
+        $("#weather").css("background-color","lightblue");
+        }
+        else if(weather.code<23 ){
+        $("#weather").css("background-color","yellow");
+        }
+        else if(weather.code>= 24 && weather.code<=30){
+        $("#weather").css("background-color","lightblue");
+        }
+        else if(weather.code===31){
+        $("#weather").css("background-color","#grey");
+        }
+        else if(weather.code>32 && weather.code <36){
+        $("#weather").css("background-color","lightgrey");
+        }
+        else if(weather.code===32 && weather.code===36){
+        $("#weather").css("background-color","#FFCC66");
+        }
+        else if(weather.code>37){
+        $("#weather").css("background-color","lightblue");
+        }
+    
         $("#weather").html(html);
       },
       error: function(error) {
@@ -96,17 +110,26 @@ var myWeatherApp = {
   },
 
   codeLocation: function(results, status){
-    console.log(results);
     if (status == google.maps.GeocoderStatus.OK) {
       myWeatherApp.config.map.setCenter(results[0].geometry.location);
-      // var marker = new google.maps.Marker({
-      //     map: myWeatherApp.config.map,
-      //     position: results[0].geometry.location
-      // });
       myWeatherApp.config.marker.setPosition(results[0].geometry.location);
     } else {
       alert("Geocode was not successful for the following reason: " + status);
     }
+  },
+
+  placeMarker: function(location) {
+
+    if (myWeatherApp.config.marker == undefined){
+        myWeatherApp.config.marker.setPosition(location);
+    }
+    else{
+      myWeatherApp.config.marker.setPosition(location);
+
+    }
+    myWeatherApp.config.map.setCenter(location);
+    myWeatherApp.loadWeather(location.lat() + ',' + location.lng());
+
   },
 
   setupListeners: function(){
@@ -115,14 +138,9 @@ var myWeatherApp = {
         var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);//this stores
         // the latitude and longitude for the present location 
         myWeatherApp.loadWeather(position.coords.latitude+','+position.coords.longitude); //load weather using your lat/lng coordinates
-        //this positions the marker on the map        
-        // var marker = new google.maps.Marker({
-        //   map: myWeatherApp.config.map,
-        //   position: latLng
-        // });
+
         myWeatherApp.config.marker.setPosition(latLng); 
         myWeatherApp.config.map.setCenter(latLng);
-
       });
     });
 
@@ -140,21 +158,10 @@ var myWeatherApp = {
       $('#searchForm').submit();
       }
     });
-  //   google.maps.event.addListener(myWeatherApp.config.map, 'click', function(event) {
-  //     placeMarker(event.latLng);
-  //   });
 
-  //   function placeMarker(location) {
-  //     var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-  //     if (myWeatherApp.config.marker == undefined){
-  //         myWeatherApp.config.marker.setPosition(latLng);
-  //     }
-  //     else{
-  //       myWeatherApp.config.marker.setPosition(location);
-  //     }
-  //     myWeatherApp.config.map.setCenter(location);
-
-  //   }
+    google.maps.event.addListener(myWeatherApp.config.map, 'click', function(event) {
+      myWeatherApp.placeMarker(event.latLng);
+    });
 
   }
 
