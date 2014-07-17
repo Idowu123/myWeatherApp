@@ -5,6 +5,7 @@
 		<meta charset="utf-8" lang="en">
 		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="css/main.css">
+		<link href='http://fonts.googleapis.com/css?family=Raleway:900' rel='stylesheet' type='text/css'>
 		<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.2.min.js"></script>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.simpleWeather/3.0.2/jquery.simpleWeather.min.js"></script>
 		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
@@ -15,19 +16,21 @@
 		<div id="all">
 			<header>
 				<h1>MyWeatherApp</h1>
-				<p>This App lets you check the weather condition for a particular location.</p>
+				<p>This App lets you check the weather condition for a particular location.You can click on the map or enter the location</p>
 			</header>	
-
 			<div id="report">				
-				<div id="weather"></div>
-				
-				<button class="js-geolocation">Use Your Location</button>
+				<div id="weather">
+					<img src="img/preloadr.GIF" id="my_img">
+				</div>
 				<form id="searchForm">
 					<input type="text" id="search">
 					<input type="submit" id="searchsubmit" value="Enter Location">
 				</form>
 			</div>
-			<div id="map-canvas"></div>
+			<div id="my_map">
+				<div id="map-canvas"></div>
+				<div id="region_div"></div>
+			</div>
 		</div>
 	</body>
 </html>

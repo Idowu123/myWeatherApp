@@ -2,7 +2,7 @@ var myWeatherApp = {
 
   init: function(){
     var mapOptions = {
-      zoom: 12
+      zoom: 10
     };
     myWeatherApp.config = {
       map: new google.maps.Map(document.getElementById('map-canvas'), mapOptions),
@@ -11,7 +11,7 @@ var myWeatherApp = {
     };
 
     myWeatherApp.loadMapCurrentLoc();
-    myWeatherApp.loadWeather("Lagos");
+    myWeatherApp.loadWeather('');
     myWeatherApp.setupListeners();
   
   },
@@ -19,12 +19,11 @@ var myWeatherApp = {
 
   loadMapCurrentLoc :  function () { 
       // Try HTML5 geolocation
-      if(navigator.geolocation) 
-      {
-
+      if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(function(position) {
             var pos = new google.maps.LatLng(position.coords.latitude,
                                            position.coords.longitude);
+            myWeatherApp.loadWeather(position.coords.latitude+','+position.coords.longitude); //load weather using your lat/lng coordinates
 
             myWeatherApp.config.marker = new google.maps.Marker({
                 map: myWeatherApp.config.map,
@@ -36,7 +35,7 @@ var myWeatherApp = {
         },function() {
           myWeatherApp.handleNoGeolocation(true);
           });
-      
+
       } 
       else 
       {
@@ -45,7 +44,7 @@ var myWeatherApp = {
       }
   },
 
-  handleNoGeolocation:   function (errorFlag) {
+  handleNoGeolocation: function (errorFlag) {
     if (errorFlag) 
     {
       var content = 'Error: The Geolocation service failed.';
@@ -69,12 +68,14 @@ var myWeatherApp = {
     $.simpleWeather({
       location: location,
       unit: 'f',
-      success: function(weather) {
-        html = '<h2><i class="icon-'+weather.code+'"></i> '+weather.temp+'&deg;'+weather.units.temp+'</h2>';
-        html += '<ul><li>'+weather.city+', '+weather.region+'</li>';
-        html += '<li class="currently">'+weather.currently+'</li>';
-        html += '<li>'+weather.alt.temp+'&deg;C</li></ul>';  
+      woeid: 'woeid',
+      success: function(weather) { 
+        html = '<h2><i class="icon-'+weather.code+'"></i> '+weather.alt.temp+'&deg;C</h2>';
+        html += '<ul><li class="currently">'+weather.currently+'</li>';
+        html += '<li>'+weather.temp+'&deg;'+weather.units.temp+'</li></ul>';
+        var my_li = '<div class="mycity"><p>'+weather.city+','+weather.country+'</p></div>';  
 
+        
         
         if(weather.code>= 0 && weather.code<=17){
         $("#weather").css("background-color","lightblue");
@@ -85,23 +86,29 @@ var myWeatherApp = {
         else if(weather.code<23 ){
         $("#weather").css("background-color","yellow");
         }
-        else if(weather.code>= 24 && weather.code<=30){
+        else if(weather.code>= 24 && weather.code<=28){
         $("#weather").css("background-color","lightblue");
         }
-        else if(weather.code===31){
-        $("#weather").css("background-color","#grey");
+        else if(weather.code==29 && weather.code==30){
+        $("#weather").css("background-color","grey");
         }
-        else if(weather.code>32 && weather.code <36){
+        else if(weather.code==="SUNNY"){
+        $("#weather").css("background-color","black");
+        }
+        else if(weather.text>32 && weather.code <36){
         $("#weather").css("background-color","lightgrey");
         }
-        else if(weather.code===32 && weather.code===36){
+        else if(weather.code===36){
         $("#weather").css("background-color","#FFCC66");
         }
         else if(weather.code>37){
         $("#weather").css("background-color","lightblue");
         }
-    
+         $('#my_img').css("align-self", "center");
         $("#weather").html(html);
+        $('#my_img').hide();
+        $('#region_div').html(my_li).show();
+     
       },
       error: function(error) {
         $("#weather").html('<p>'+error+'</p>');
@@ -133,16 +140,6 @@ var myWeatherApp = {
   },
 
   setupListeners: function(){
-    $('.js-geolocation').click(function() {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);//this stores
-        // the latitude and longitude for the present location 
-        myWeatherApp.loadWeather(position.coords.latitude+','+position.coords.longitude); //load weather using your lat/lng coordinates
-
-        myWeatherApp.config.marker.setPosition(latLng); 
-        myWeatherApp.config.map.setCenter(latLng);
-      });
-    });
 
     $("#searchForm").submit(function(event){
       event.preventDefault();
