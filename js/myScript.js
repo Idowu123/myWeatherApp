@@ -146,7 +146,7 @@ var myWeatherApp = {
       var address = $("#search").val();
       myWeatherApp.loadWeather(address);
       myWeatherApp.config.geocoder.geocode({ 'address': address}, myWeatherApp.codeLocation);
-       var address= $('#search').val("");
+      var address= $('#search').val("");
     });
 
     $('#search').keyup(function(event) {
